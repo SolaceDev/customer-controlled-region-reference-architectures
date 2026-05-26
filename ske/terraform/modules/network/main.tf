@@ -1,6 +1,6 @@
 locals {
   project_labels = merge({
-    "networkArea" = stackit_network_area_region.cluster_network_region.network_area_id,
+    "networkArea" = stackit_network_area_region.this.network_area_id,
     },
     var.create_routing_table ? {
       "preview/routingTables" = "true"
@@ -28,13 +28,13 @@ resource "stackit_network" "this" {
   ipv4_prefix      = var.cluster_cidr
   project_id       = var.project_id
   ipv4_nameservers = var.network_dns_servers
-  routing_table_id = try(stackit_routing_table.this.routing_table_id, null)
+  routing_table_id = try(stackit_routing_table.this[0].routing_table_id, null)
 }
 
 resource "stackit_resourcemanager_project" "cluster_project" {
   parent_container_id = var.organization_id
   name                = var.name
-  owner_email         = var.email
+  owner_email         = var.owner_email
   labels              = local.project_labels
 }
 

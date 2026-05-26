@@ -50,3 +50,8 @@ variable "create_routing_table" {
   default     = true
   description = "Whether or not to create a routing table and assign it to the primary cluster network. If `false`, the network will use the static routes API which will be by end of 2026."
 }
+
+variable "owner_email" {
+  type        = string
+  description = "Owner email to assign to the STACKIT project."
+}

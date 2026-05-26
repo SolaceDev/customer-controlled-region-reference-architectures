@@ -26,6 +26,7 @@ module "network" {
   additional_sna_ranges = var.additional_sna_ranges
   transfer_network_cidr = var.transfer_network_cidr
   network_dns_servers   = var.network_dns_servers
+  owner_email           = var.owner_email
 }
 
 ################################################################################

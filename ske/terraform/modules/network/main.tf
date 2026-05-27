@@ -19,12 +19,3 @@ resource "stackit_network" "this" {
   project_id       = var.project_id
   ipv4_nameservers = var.network_dns_servers
 }
-
-resource "stackit_resourcemanager_project" "cluster_project" {
-  parent_container_id = var.organization_id
-  name                = var.name
-  owner_email         = var.owner_email
-  labels = {
-    "networkArea" = stackit_network_area_region.this.network_area_id
-  }
-}

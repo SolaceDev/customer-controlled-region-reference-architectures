@@ -22,7 +22,6 @@ No modules.
 | [stackit_network.this](https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/resources/network) | resource |
 | [stackit_network_area.this](https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/resources/network_area) | resource |
 | [stackit_network_area_region.this](https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/resources/network_area_region) | resource |
-| [stackit_resourcemanager_project.cluster_project](https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/resources/resourcemanager_project) | resource |
 
 ## Inputs
 
@@ -33,7 +32,6 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Name prefix for network resources. Produces name + '-sna' for the network area and name + '-network' for the network. | `string` | n/a | yes |
 | <a name="input_network_dns_servers"></a> [network\_dns\_servers](#input\_network\_dns\_servers) | IPv4 nameservers configured on the cluster network. | `list(string)` | <pre>[<br/>  "8.8.8.8",<br/>  "8.8.4.4"<br/>]</pre> | no |
 | <a name="input_organization_id"></a> [organization\_id](#input\_organization\_id) | STACKIT organization ID that owns the network area. | `string` | n/a | yes |
-| <a name="input_owner_email"></a> [owner\_email](#input\_owner\_email) | Owner email to assign to the STACKIT project. | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | STACKIT project ID where the project-scoped network is created. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | STACKIT region used for the network area region binding (e.g. eu01). | `string` | n/a | yes |
 | <a name="input_transfer_network_cidr"></a> [transfer\_network\_cidr](#input\_transfer\_network\_cidr) | IPv4 CIDR for the network area's transfer network. Must not overlap with the CGNAT range (100.64.0.0/10). | `string` | n/a | yes |

@@ -44,8 +44,3 @@ variable "network_dns_servers" {
     error_message = "At least one DNS server must be provided. Cluster nodes will fail to join without functional DNS."
   }
 }
-
-variable "owner_email" {
-  type        = string
-  description = "Owner email to assign to the STACKIT project."
-}

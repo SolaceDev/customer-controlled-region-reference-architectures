@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -9,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_stackit"></a> [stackit](#provider\_stackit) | ~> 0.95.0 |
+| <a name="provider_stackit"></a> [stackit](#provider\_stackit) | 0.95.0 |
 
 ## Modules
 
@@ -34,6 +35,7 @@ No modules.
 | <a name="input_organization_id"></a> [organization\_id](#input\_organization\_id) | STACKIT organization ID that owns the network area. | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | STACKIT project ID where the project-scoped network is created. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | STACKIT region used for the network area region binding (e.g. eu01). | `string` | n/a | yes |
+| <a name="input_resource_labels"></a> [resource\_labels](#input\_resource\_labels) | Map of resource labels to apply to all resources that support labelling. | `map(string)` | `{}` | no |
 | <a name="input_transfer_network_cidr"></a> [transfer\_network\_cidr](#input\_transfer\_network\_cidr) | IPv4 CIDR for the network area's transfer network. Must not overlap with the CGNAT range (100.64.0.0/10). | `string` | n/a | yes |
 
 ## Outputs
@@ -42,3 +44,4 @@ No modules.
 |------|-------------|
 | <a name="output_network_area_id"></a> [network\_area\_id](#output\_network\_area\_id) | ID of the organization-scoped network area. |
 | <a name="output_network_id"></a> [network\_id](#output\_network\_id) | ID of the project-scoped network. |
+<!-- END_TF_DOCS -->

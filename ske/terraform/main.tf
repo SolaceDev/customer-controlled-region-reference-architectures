@@ -24,7 +24,7 @@ locals {
   subnets = concat(var.allocate_for_vpn ? [
     {
       name     = "vpn"
-      new_bits = var.transfer_range_prefix - local.base_cidr_prefix
+      new_bits = var.vpn_range_prefix - local.base_cidr_prefix
     }] : [],
     [
       {

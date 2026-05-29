@@ -50,6 +50,12 @@ variable "transfer_range_prefix" {
   description = "Prefix size for the transfer network subnet (e.g. 30 gives a /30 with 4 addresses)."
 }
 
+variable "vpn_range_prefix" {
+  type        = number
+  default     = 30
+  description = "Prefix size for the VPN network subnet (e.g. 30 gives a /30 with 4 addresses)."
+}
+
 variable "cluster_range_prefix" {
   type        = number
   default     = 24

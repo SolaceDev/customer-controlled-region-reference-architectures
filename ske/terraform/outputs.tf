@@ -47,3 +47,12 @@ output "bastion_username" {
   value       = one(module.bastion[*].bastion_username)
   description = "SSH username for the bastion host (null when create_bastion is false)."
 }
+
+output "subnet_ranges" {
+  value = { for name, cidr in module.subnet_addrs.network_cidr_blocks : name => {
+    cidr     = cidr
+    start_ip = cidrhost(cidr, 0)
+    end_ip   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
+  } }
+  description = "Subnet CIDR blocks with their start and end IP addresses."
+}

@@ -18,6 +18,33 @@ resource "stackit_resourcemanager_project" "cluster" {
 # Network (SNA + SNA region binding + project-scoped network)
 ################################################################################
 
+locals {
+  base_cidr_block = "${var.base_cidr_address}/${var.base_cidr_prefix}"
+
+  subnets = concat(var.allocate_for_vpn ? [
+    {
+      name     = "vpn"
+      new_bits = var.transfer_range_prefix - var.base_cidr_prefix
+    }] : [],
+    [
+      {
+        name     = "transfer"
+        new_bits = var.transfer_range_prefix - var.base_cidr_prefix
+      },
+      {
+        name     = "cluster"
+        new_bits = var.cluster_range_prefix - var.base_cidr_prefix
+      },
+  ])
+}
+
+module "subnet_addrs" {
+  source = "hashicorp/subnets/cidr"
+
+  base_cidr_block = local.base_cidr_block
+  networks        = local.subnets
+}
+
 module "network" {
   source = "./modules/network"
 
@@ -25,9 +52,9 @@ module "network" {
   project_id            = stackit_resourcemanager_project.cluster.project_id
   name                  = var.cluster_name
   region                = var.region
-  cluster_cidr          = var.cluster_cidr
-  additional_sna_ranges = var.additional_sna_ranges
-  transfer_network_cidr = var.transfer_network_cidr
+  cluster_cidr          = module.subnet_addrs.network_cidr_blocks["cluster"]
+  additional_sna_ranges = var.allocate_for_vpn ? [module.subnet_addrs.network_cidr_blocks["vpn"]] : []
+  transfer_network_cidr = module.subnet_addrs.network_cidr_blocks["transfer"]
   network_dns_servers   = var.network_dns_servers
   common_labels         = var.common_labels
 }

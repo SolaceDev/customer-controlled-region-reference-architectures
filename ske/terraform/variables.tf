@@ -38,22 +38,28 @@ variable "region" {
   description = "STACKIT region to deploy resources into."
 }
 
-variable "cluster_cidr" {
+variable "base_cidr_address" {
   type        = string
-  default     = "10.0.0.0/24"
-  description = "IPv4 CIDR for the cluster network."
+  default     = "10.0.0.0"
+  description = "Starting IP address for the base CIDR block used to calculate all subnet ranges (cluster, transfer, vpn)."
 }
 
-variable "additional_sna_ranges" {
-  type        = list(string)
-  default     = ["10.0.1.0/24"]
-  description = "Additional IPv4 prefixes added to the STACKIT Network Area, alongside cluster_cidr. Commonly used for a VPN gateway range."
+variable "base_cidr_prefix" {
+  type        = number
+  default     = 22
+  description = "Prefix size for the base CIDR block (e.g. 22 gives a /22 network). Subnet sizes are carved from this."
 }
 
-variable "transfer_network_cidr" {
-  type        = string
-  default     = "10.1.0.0/16"
-  description = "IPv4 CIDR for the network area's transfer network."
+variable "transfer_range_prefix" {
+  type        = number
+  default     = 30
+  description = "Prefix size for the transfer network subnet (e.g. 30 gives a /30 with 4 addresses)."
+}
+
+variable "cluster_range_prefix" {
+  type        = number
+  default     = 24
+  description = "Prefix size for the cluster network subnet (e.g. 24 gives a /24 with 256 addresses)."
 }
 
 variable "network_dns_servers" {
@@ -171,4 +177,10 @@ variable "bastion_icmp_source_cidr" {
   type        = string
   default     = ""
   description = "Source CIDR allowed to send ICMP echo (ping) to the bastion. Leave empty to omit the ICMP ingress rule entirely."
+}
+
+variable "allocate_for_vpn" {
+  type        = bool
+  default     = false
+  description = "Whether to allocate an /30 range in the SNA to provide space for a VPN gateway."
 }

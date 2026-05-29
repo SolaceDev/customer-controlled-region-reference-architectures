@@ -19,21 +19,21 @@ resource "stackit_resourcemanager_project" "cluster" {
 ################################################################################
 
 locals {
-  base_cidr_block = "${var.base_cidr_address}/${var.base_cidr_prefix}"
+  base_cidr_prefix = tonumber(split("/", var.base_cidr_block)[1])
 
   subnets = concat(var.allocate_for_vpn ? [
     {
       name     = "vpn"
-      new_bits = var.transfer_range_prefix - var.base_cidr_prefix
+      new_bits = var.transfer_range_prefix - local.base_cidr_prefix
     }] : [],
     [
       {
         name     = "transfer"
-        new_bits = var.transfer_range_prefix - var.base_cidr_prefix
+        new_bits = var.transfer_range_prefix - local.base_cidr_prefix
       },
       {
         name     = "cluster"
-        new_bits = var.cluster_range_prefix - var.base_cidr_prefix
+        new_bits = var.cluster_range_prefix - local.base_cidr_prefix
       },
   ])
 }
@@ -41,7 +41,7 @@ locals {
 module "subnet_addrs" {
   source = "hashicorp/subnets/cidr"
 
-  base_cidr_block = local.base_cidr_block
+  base_cidr_block = var.base_cidr_block
   networks        = local.subnets
 }
 

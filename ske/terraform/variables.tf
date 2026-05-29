@@ -38,16 +38,10 @@ variable "region" {
   description = "STACKIT region to deploy resources into."
 }
 
-variable "base_cidr_address" {
+variable "base_cidr_block" {
   type        = string
-  default     = "10.0.0.0"
-  description = "Starting IP address for the base CIDR block used to calculate all subnet ranges (cluster, transfer, vpn)."
-}
-
-variable "base_cidr_prefix" {
-  type        = number
-  default     = 22
-  description = "Prefix size for the base CIDR block (e.g. 22 gives a /22 network). Subnet sizes are carved from this."
+  default     = "10.0.0.0/22"
+  description = "Base CIDR block used to calculate all subnet ranges (cluster, transfer, vpn)."
 }
 
 variable "transfer_range_prefix" {

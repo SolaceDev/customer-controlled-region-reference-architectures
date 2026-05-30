@@ -2,6 +2,13 @@ resource "stackit_network_area" "this" {
   organization_id = var.organization_id
   name            = "${var.name}-sna"
   labels          = var.common_labels
+
+  # The project-scoped network references this network area. On destroy,
+  # Terraform must delete the network area (and its region binding) before
+  # the project. Without this dependency Terraform may destroy the project
+  # first, causing the network area region deletion to fail with
+  # "has still active projects".
+  depends_on = [stackit_network.this]
 }
 
 resource "stackit_network_area_region" "this" {

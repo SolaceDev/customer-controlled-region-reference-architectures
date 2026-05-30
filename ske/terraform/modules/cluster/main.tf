@@ -1,4 +1,16 @@
+data "stackit_ske_kubernetes_versions" "supported" {
+  version_state = "SUPPORTED"
+}
+
 locals {
+  # Filter available versions to those matching the requested major.minor prefix,
+  # then pick the newest patch release (first match, API returns descending order).
+  matching_versions = [
+    for v in data.stackit_ske_kubernetes_versions.supported.kubernetes_versions : v.version
+    if startswith(v.version, "${var.kubernetes_version}.")
+  ]
+  resolved_kubernetes_version = local.matching_versions[0]
+
   acl_extension = length(var.kubernetes_api_authorized_networks) > 0 ? {
     enabled       = true
     allowed_cidrs = var.kubernetes_api_authorized_networks
@@ -24,7 +36,7 @@ locals {
 resource "stackit_ske_cluster" "this" {
   name                   = var.cluster_name
   project_id             = var.project_id
-  kubernetes_version_min = var.kubernetes_version
+  kubernetes_version_min = local.resolved_kubernetes_version
 
   maintenance = {
     enable_kubernetes_version_updates    = false
